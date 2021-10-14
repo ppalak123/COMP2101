@@ -35,7 +35,7 @@ else
 	echo "/etc/hosts file has been edited changed from $oldname to $newname"
 fi
 
-if [[ "$newname" != "oldname" ]];
+if [[ "$newname" != "$oldname" ]];
 then
 	sudo hostnamectl set-hostname "$newname"
 	echo "Hostname changed. Please reboot for changes to take effect!"
