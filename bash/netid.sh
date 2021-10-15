@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+ #
 # this script displays some host identification information for a Linux machine
 #
 # Sample output:
