@@ -91,5 +91,7 @@ LAN Address     : $lanaddress
 LAN Hostname    : $lanname
 External IP     : $ExternalIP
 External Name   : $Externalhostname
+Router Address  : $router_address
+Router Hostname : $router_name
 EOF
 
