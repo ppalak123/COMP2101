@@ -1,19 +1,26 @@
 ﻿#Function for getting system hardware description
+function hardwareInfo {
 echo "System Hardware Description"
 $systemhardware = Get-WmiObject win32_computersystem
 $systemhardware | Select-Object | ft description
+}
 
 #Function for getting operating system data
+function osData {
 echo "Operating System Data"
 $osdata = Get-WmiObject win32_operatingsystem
 $osdata | Select-Object | ft name, version
+}
 
 #Function for getting processor information
+function processorData {
 echo "Processor Information:"
 $processordata = Get-WmiObject win32_processor
 $processordata | Select-Object | ft Description, MaxClockSpeed, NumberOfCores, L3CacheSize
+}
 
 #function for getting RAM description
+function ramData{
 echo "RAM Description"
 $capacity = 0
 Get-WmiObject -class win32_physicalmemory | foreach {
@@ -26,8 +33,10 @@ Slot = $_.devicelocator }
 $capacity += $_.capacity/1mb } | ft Vendor, Description, "Size(MB)", Bank, Slot
 "Total RAM: ${capacity}MB"
 ""
+}
 
 #Function for getting the information of physical disk drives
+function diskInfo{
 echo "Physical Disk Drives Information"
 get-WmiObject -classname Win32_DiskDrive |
 where-object DeviceID -ne $NULL |
@@ -46,15 +55,27 @@ Foreach-Object {
       } | ft -AutoSize Manufacturer, Model, size, Free, FreeSpace }
    }
   }
-
+  }
 
 #Function for getting network adaptor configuration
+function networkInfo {
 echo "Network Adapter Configuration"
 $adaptersinfo = get-ciminstance win32_networkadapterconfiguration 
 $adaptersinfo | Where-Object ipenabled -eq 1 | 
 Select-Object | ft Description, Index, IPAddress, IPSubnet, DNSDomain, @{n="DNSServer";e={$_.DNSServerSearchOrder }}
+}
 
 # Function for getting video card summary
+function graphicInfo {
 echo "Video Card Summary"
 $gpu = Get-WmiObject win32_videocontroller
 $gpu | Select-Object | ft @{n="Vendor";e={$.AdapterCompatibility}}, Description, @{n="Screen Resolution";e={$.VideoModeDescription}}
+}
+
+hardwareInfo
+osData
+processorData
+ramData
+diskInfo
+networkInfo
+graphicInfo
